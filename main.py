@@ -39,21 +39,26 @@ def main():
                 for attempt in attempts:
                     lesson_title = attempt['lesson_title']
                     lesson_url = attempt['lesson_url']
-                    text = f'''
-                                У вас проверили работу {lesson_title},
-                                вот ссылка на неё: {lesson_url}. 
-                                К сожалению, в работе нашлись ошибки.'''
+                    
                     if attempt['is_negative']:
+                        text = f'''\
+                            У вас проверили работу {lesson_title},
+                            вот ссылка на неё: {lesson_url}. 
+                            К сожалению, в работе нашлись ошибки.
+                        '''
+
                         bot.send_message(
                             chat_id=chat_id,
                             text=dedent(text)
                         )
+
                     else:
                         text = f'''
-                                    У вас проверили работу {lesson_title},
-                                    вот ссылка на неё {lesson_url}. 
-                                    Преподавателю всё понравилось.  
-                                    Можно приступать к следующему уроку.'''
+                            У вас проверили работу {lesson_title},
+                            вот ссылка на неё {lesson_url}. 
+                            Преподавателю всё понравилось.  
+                            Можно приступать к следующему уроку.
+                        '''
 
                         bot.send_message(
                             chat_id=chat_id,
