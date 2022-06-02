@@ -11,7 +11,7 @@ pip install -r requirements.txt
 4. Создайте бота и получите токен у бота `@BotFather`.
 5. Узнайте свой `id` в Telegram у бота `@userinfobot`.
 6. Получите токен для API Devman по [ссылке](https://dvmn.org/api/docs/) (вы должны быть авторизированы на сайте).
-7. Создайте файл ```.env``` в корне проекта и пропишите в нем переменные окружения:`TELEGRAM_BOT_TOKEN`, `CHAT_ID`, `DEVMAN_TOKEN`.
+7. Создайте файл ```.env``` в корне проекта и пропишите в нем переменные окружения:`TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`, `DEVMAN_TOKEN`.
 ### Как пользоваться
 Запустите скрипт командой:
 ```python
