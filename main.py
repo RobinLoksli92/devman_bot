@@ -1,4 +1,5 @@
 from os import getenv
+from textwrap import dedent
 from time import sleep
 
 from dotenv import load_dotenv
@@ -38,20 +39,25 @@ def main():
                 for attempt in attempts:
                     lesson_title = attempt['lesson_title']
                     lesson_url = attempt['lesson_url']
+                    text = f'''
+                                У вас проверили работу {lesson_title},
+                                вот ссылка на неё: {lesson_url}. 
+                                К сожалению, в работе нашлись ошибки.'''
                     if attempt['is_negative']:
                         bot.send_message(
                             chat_id=chat_id,
-                            text=f'У вас проверили работу {lesson_title}, \
-                                    вот ссылка на неё {lesson_url}. \
-                                    К сожаению, в работе нашлись ошибки.'
+                            text=dedent(text)
                         )
                     else:
+                        text = f'''
+                                    У вас проверили работу {lesson_title},
+                                    вот ссылка на неё {lesson_url}. 
+                                    Преподавателю всё понравилось.  
+                                    Можно приступать к следующему уроку.'''
+
                         bot.send_message(
                             chat_id=chat_id,
-                            text=f'У вас проверили работу {lesson_title}, \
-                                    вот ссылка на неё {lesson_url} \
-                                    Преподавателю всё понравилось. \
-                                    Можно приступать к следующему уроку.'
+                            text=dedent(text)
                         )
 
         except requests.exceptions.ReadTimeout:
