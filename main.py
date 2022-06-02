@@ -32,6 +32,7 @@ def main():
 
             if lesson_review_details['status'] == 'timeout':
                 timestamp = lesson_review_details.get('timestamp_to_request')
+                print('Время истекло')
 
             elif lesson_review_details['status'] == 'found':
                 timestamp = lesson_review_details.get('timestamp_to_request')
@@ -66,7 +67,6 @@ def main():
                         )
 
         except requests.exceptions.ReadTimeout:
-            print('Истекло время ожидания ответа от сервера!')
             continue
 
         except requests.exceptions.ConnectionError:
