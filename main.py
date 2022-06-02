@@ -27,14 +27,14 @@ def main():
         try:
             response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
-            server_message = response.json()
+            lesson_review_details = response.json()
 
-            if server_message['status'] == 'timeout':
-                timestamp = server_message.get('timestamp_to_request')
+            if lesson_review_details['status'] == 'timeout':
+                timestamp = lesson_review_details.get('timestamp_to_request')
 
-            elif server_message['status'] == 'found':
-                timestamp = server_message.get('timestamp_to_request')
-                attempts = server_message['new_attempts']
+            elif lesson_review_details['status'] == 'found':
+                timestamp = lesson_review_details.get('timestamp_to_request')
+                attempts = lesson_review_details['new_attempts']
                 for attempt in attempts:
                     lesson_title = attempt['lesson_title']
                     lesson_url = attempt['lesson_url']
