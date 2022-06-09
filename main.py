@@ -1,10 +1,27 @@
 from os import getenv
 from textwrap import dedent
+import logging
 from time import sleep
 
 from dotenv import load_dotenv
 import telegram
 import requests
+
+
+logger = logging.getLogger('Логер телеграм-бота')
+
+
+class MyLogsHandler(logging.Handler):
+
+    def __init__(self, tg_bot, chat_id):
+        super().__init__()
+        self.chat_id = chat_id
+        self.tg_bot = tg_bot
+
+
+    def emit(self, record):
+        log_entry = self.format(record)
+        self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
 
 
 def main():
@@ -14,6 +31,10 @@ def main():
     chat_id = getenv('TELEGRAM_CHAT_ID')
 
     bot = telegram.Bot(tg_bot_token)
+    
+    logger.setLevel(logging.INFO)
+    logger.addHandler(MyLogsHandler(bot, chat_id))
+    logger.info('Бот запущен')
 
     url = 'https://dvmn.org/api/long_polling/'
     headers = {
@@ -26,7 +47,7 @@ def main():
 
     while True:
         try:
-            response = requests.get(url, headers=headers, params=params)
+            response = requests.get(url, headers=headers, params=params, timeout=5)
             response.raise_for_status()
             lesson_review_details = response.json()
 
@@ -67,10 +88,11 @@ def main():
                         )
 
         except requests.exceptions.ReadTimeout:
+            logger.warning('Истекло время ожидания ответа от сервера')
             continue
 
         except requests.exceptions.ConnectionError:
-            print('Проверьте подключение к интернету')
+            logger.warning('Проверьте подключение к интернету')
             sleep(90)
             continue
 
