@@ -18,7 +18,6 @@ class MyLogsHandler(logging.Handler):
         self.chat_id = chat_id
         self.tg_bot = tg_bot
 
-
     def emit(self, record):
         log_entry = self.format(record)
         self.tg_bot.send_message(chat_id=self.chat_id, text=log_entry)
@@ -47,7 +46,7 @@ def main():
 
     while True:
         try:
-            response = requests.get(url, headers=headers, params=params, timeout=5)
+            response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
             lesson_review_details = response.json()
 
@@ -95,7 +94,7 @@ def main():
             logger.warning('Проверьте подключение к интернету')
             sleep(90)
             continue
-        
+
         except Exception as err:
             logger.exception(msg=f'Бот сломался, ошибка: {err}')
             sleep(45)
