@@ -95,6 +95,10 @@ def main():
             logger.warning('Проверьте подключение к интернету')
             sleep(90)
             continue
+        
+        except Exception as err:
+            logger.exception(msg=f'Бот сломался, ошибка: {err}')
+            sleep(45)
 
 
 if __name__ == '__main__':
